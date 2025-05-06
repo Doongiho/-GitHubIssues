@@ -63,3 +63,8 @@
 .filterItem{
     position: relative;
 }
+
+.PageinationContainer{
+    display: flex;
+    justify-content: center;
+}
