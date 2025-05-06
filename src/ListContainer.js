@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react"
+import axios from "axios"
 import styles from "./ListContainer.module.css"
 import Button from "./components/Button"
 import ListItem from "./components/ListItem"
 import ListItemLayout from "./components/ListItemLayout"
-import Modal from "./components/Modal"
+import ListFilter from "./components/ListFilter"
 import Pageination from "./components/Pageination"
 import cx from "clsx"
 
@@ -12,9 +13,16 @@ export default function ListContainer() {
   const [list, setList] = useState([])
   const [page, setPage] = useState(1)
 
+  async function getData() {
+    const { data } = axios.get(
+      "https://api.github.com/repos/facebook/react/issues",
+    )
+    setList(data)
+  }
+
   useEffect(() => {
-    console.log({ inputValue })
-  }, [inputValue])
+    getData()
+  }, [])
 
   return (
     <>
@@ -61,42 +69,6 @@ export default function ListContainer() {
         />
       </div>
     </>
-  )
-}
-
-function ListFilter({ onChangeFilter }) {
-  return (
-    <>
-      <div className={styles.filterLists}>
-        <ListFilterItem>Author</ListFilterItem>
-        <ListFilterItem>Label</ListFilterItem>
-        <ListFilterItem>Projects</ListFilterItem>
-        <ListFilterItem>Milestones</ListFilterItem>
-        <ListFilterItem>Assignee</ListFilterItem>
-        <ListFilterItem>Sort</ListFilterItem>
-      </div>
-    </>
-  )
-}
-function ListFilterItem({ children, onChangeFilter }) {
-  const [showModal, setShowModal] = useState(false)
-  return (
-    <div className={styles.filterItem}>
-      <span role="button" onClick={() => setShowModal(true)}>
-        {children} ▾
-      </span>
-      <div className={styles.modalContainer}>
-        <Modal
-          opened={showModal}
-          onClose={() => setShowModal(false)}
-          placeholder="Filter labels"
-          searchDataList={["Bug", "Labels", "Apple"]}
-          onClickCell={() => {
-            onChangeFilter()
-          }}
-        />
-      </div>
-    </div>
   )
 }
 

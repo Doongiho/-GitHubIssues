@@ -30,21 +30,6 @@
     31, 36, 0.15);
 }
 
-.filterLists{
-    display: flex;
-    align-items: center;
-}
-.filterLists > div > span {
-    padding:  0 16px;
-    line-height: 2;
-    cursor: pointer;
-    color: #57606a;
-}
-
-.filterLists > div > span:hover {
-    color: #000000;
-}
-
 .selected{
     font-weight: 800;
 }
@@ -52,16 +37,6 @@
 .textFilter{
     cursor: pointer;
     margin-right: 8px;
-}
-
-.modalContainer{
-    top: 20px;
-    left: 20px;
-    position: absolute;
-}
-
-.filterItem{
-    position: relative;
 }
 
 .PageinationContainer{
