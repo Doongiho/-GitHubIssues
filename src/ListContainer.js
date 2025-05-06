@@ -10,11 +10,13 @@ import cx from "clsx"
 
 export default function ListContainer() {
   const [inputValue, setInputValue] = useState("is:pr is:open")
+  const [checked, setChecked] = useState(false)
   const [list, setList] = useState([])
   const [page, setPage] = useState(1)
+  const maxPage = 10
 
   async function getData() {
-    const { data } = axios.get(
+    const { data } = await axios.get(
       "https://api.github.com/repos/facebook/react/issues",
     )
     setList(data)
@@ -44,26 +46,23 @@ export default function ListContainer() {
           </Button>
         </div>
         <OpenClosedFilters />
-        <ListItemLayout className={styles.listFilter}>
-          <ListFilter onChangeFilter={(filteredData) => {}} />
-        </ListItemLayout>
         <div className={styles.container}>
-          {list.map((listItem, index) => (
+          <ListItemLayout className={styles.listFilter}>
+            <ListFilter onChangeFilter={(filteredData) => {}} />
+          </ListItemLayout>
+          {list.map((item) => (
             <ListItem
-              key={index}
-              badges={[
-                {
-                  color: "red",
-                  title: "Bug",
-                },
-              ]}
+              key={item.id}
+              data={item}
+              checked={checked}
+              onClickCheckBox={() => setChecked((checked) => !checked)}
             />
           ))}
         </div>
       </div>
       <div className={styles.PageinationContainer}>
         <Pageination
-          maxPage={10}
+          maxPage={maxPage}
           currentPage={page}
           onClickPageButton={(number) => setPage(number)}
         />
