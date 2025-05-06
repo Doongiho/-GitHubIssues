@@ -54,36 +54,38 @@ export default function ListContainer() {
 }
 
 function ListFilter({ onChangeFilter }) {
-  const [showModal, setShoeModal] = useState(false)
   return (
     <>
       <div className={styles.filterLists}>
-        <ListFilterItem onClick={() => setShoeModal(true)}>
-          Author
-        </ListFilterItem>
+        <ListFilterItem>Author</ListFilterItem>
         <ListFilterItem>Label</ListFilterItem>
         <ListFilterItem>Projects</ListFilterItem>
         <ListFilterItem>Milestones</ListFilterItem>
         <ListFilterItem>Assignee</ListFilterItem>
         <ListFilterItem>Sort</ListFilterItem>
       </div>
-      <Modal
-        opened={showModal}
-        onClose={() => setShoeModal(false)}
-        placeholder="Filter labels"
-        searchDataList={["Bug", "Labels", "Apple"]}
-        onClickCell={() => {
-          onChangeFilter()
-        }}
-      />
     </>
   )
 }
-function ListFilterItem({ onClick, children }) {
+function ListFilterItem({ children, onChangeFilter }) {
+  const [showModal, setShowModal] = useState(false)
   return (
-    <span role="button" onClick={onClick}>
-      {children} ▾
-    </span>
+    <div className={styles.filterItem}>
+      <span role="button" onClick={() => setShowModal(true)}>
+        {children} ▾
+      </span>
+      <div className={styles.modalContainer}>
+        <Modal
+          opened={showModal}
+          onClose={() => setShowModal(false)}
+          placeholder="Filter labels"
+          searchDataList={["Bug", "Labels", "Apple"]}
+          onClickCell={() => {
+            onChangeFilter()
+          }}
+        />
+      </div>
+    </div>
   )
 }
 
