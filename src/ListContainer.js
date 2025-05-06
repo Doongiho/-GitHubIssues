@@ -3,6 +3,7 @@ import styles from "./ListContainer.module.css"
 import Button from "./components/Button"
 import ListItem from "./components/ListItem"
 import ListItemLayout from "./components/ListItemLayout"
+import Modal from "./components/Modal"
 import cx from "clsx"
 
 export default function ListContainer() {
@@ -49,15 +50,21 @@ export default function ListContainer() {
 }
 
 function ListFilter() {
+  const [showModal, setShoeModal] = useState(false)
   return (
-    <div className={styles.filterLists}>
-      <ListFilterItem>Author</ListFilterItem>
-      <ListFilterItem>Label</ListFilterItem>
-      <ListFilterItem>Projects</ListFilterItem>
-      <ListFilterItem>Milestones</ListFilterItem>
-      <ListFilterItem>Assignee</ListFilterItem>
-      <ListFilterItem>Sort</ListFilterItem>
-    </div>
+    <>
+      <div className={styles.filterLists}>
+        <ListFilterItem onClick={() => setShoeModal(true)}>
+          Author
+        </ListFilterItem>
+        <ListFilterItem>Label</ListFilterItem>
+        <ListFilterItem>Projects</ListFilterItem>
+        <ListFilterItem>Milestones</ListFilterItem>
+        <ListFilterItem>Assignee</ListFilterItem>
+        <ListFilterItem>Sort</ListFilterItem>
+      </div>
+      <Modal opened={showModal} onClose={() => setShoeModal(false)} />
+    </>
   )
 }
 function ListFilterItem({ onClick, children }) {
