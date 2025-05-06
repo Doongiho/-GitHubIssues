@@ -37,6 +37,12 @@
 .filterLists > span {
     padding:  0 16px;
     line-height: 2;
+    cursor: pointer;
+    color: #57606a;
+}
+
+.filterLists > span:hover {
+    color: #000000;
 }
 
 .selected{
