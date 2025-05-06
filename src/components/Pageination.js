@@ -16,6 +16,7 @@ export default function Pageination({
       </button>
       {new Array(maxPage).fill(null).map((_, idx) => (
         <PageButton
+          key={idx}
           number={idx + 1}
           onClick={onClickPageButton}
           selected={idx + 1 === currentPage}
