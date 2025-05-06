@@ -8,6 +8,7 @@ import cx from "clsx"
 
 export default function ListContainer() {
   const [inputValue, setInputValue] = useState("is:pr is:open")
+  const [list, setList] = useState([])
 
   useEffect(() => {
     console.log({ inputValue })
@@ -33,23 +34,26 @@ export default function ListContainer() {
       </div>
       <OpenClosedFilters />
       <ListItemLayout className={styles.listFilter}>
-        <ListFilter />
+        <ListFilter onChangeFilter={(filteredData) => {}} />
       </ListItemLayout>
       <div className={styles.container}>
-        <ListItem
-          badges={[
-            {
-              color: "red",
-              title: "Bug",
-            },
-          ]}
-        />
+        {list.map((ListItem, index) => (
+          <ListItem
+            key={index}
+            badges={[
+              {
+                color: "red",
+                title: "Bug",
+              },
+            ]}
+          />
+        ))}
       </div>
     </div>
   )
 }
 
-function ListFilter() {
+function ListFilter({ onChangeFilter }) {
   const [showModal, setShoeModal] = useState(false)
   return (
     <>
@@ -63,7 +67,15 @@ function ListFilter() {
         <ListFilterItem>Assignee</ListFilterItem>
         <ListFilterItem>Sort</ListFilterItem>
       </div>
-      <Modal opened={showModal} onClose={() => setShoeModal(false)} />
+      <Modal
+        opened={showModal}
+        onClose={() => setShoeModal(false)}
+        placeholder="Filter labels"
+        searchDataList={["Bug", "Labels", "Apple"]}
+        onClickCell={() => {
+          onChangeFilter()
+        }}
+      />
     </>
   )
 }
