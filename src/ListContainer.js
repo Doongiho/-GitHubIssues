@@ -7,6 +7,7 @@ import ListItemLayout from "./components/ListItemLayout"
 import ListFilter from "./components/ListFilter"
 import Pageination from "./components/Pageination"
 import OpenClosedFilters from "./components/OpenCloseFilters"
+import { GITHUB_API } from "./api"
 
 export default function ListContainer() {
   const [inputValue, setInputValue] = useState("is:pr is:open")
@@ -17,12 +18,9 @@ export default function ListContainer() {
   const maxPage = 10
 
   async function getData(params) {
-    const data = await axios.get(
-      "https://api.github.com/repos/facebook/react/issues",
-      {
-        params,
-      },
-    )
+    const data = await axios.get(`${GITHUB_API}/repos/facebook/react/issues`, {
+      params,
+    })
     setList(data.data)
   }
 
