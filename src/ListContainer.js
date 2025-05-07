@@ -15,16 +15,19 @@ export default function ListContainer() {
   const [page, setPage] = useState(1)
   const maxPage = 10
 
-  async function getData() {
-    const { data } = await axios.get(
+  async function getData(pageParam) {
+    const data = await axios.get(
       "https://api.github.com/repos/facebook/react/issues",
+      {
+        params: { page: pageParam },
+      },
     )
-    setList(data)
+    setList(data.data)
   }
 
   useEffect(() => {
-    getData()
-  }, [])
+    getData(page)
+  }, [page])
 
   return (
     <>
