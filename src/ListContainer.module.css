@@ -33,10 +33,6 @@
     font-weight: 800;
 }
 
-.textFilter{
-    cursor: pointer;
-    margin-right: 8px;
-}
 
 .PageinationContainer{
     display: flex;

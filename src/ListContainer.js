@@ -6,28 +6,29 @@ import ListItem from "./components/ListItem"
 import ListItemLayout from "./components/ListItemLayout"
 import ListFilter from "./components/ListFilter"
 import Pageination from "./components/Pageination"
-import cx from "clsx"
+import OpenClosedFilters from "./components/OpenCloseFilters"
 
 export default function ListContainer() {
   const [inputValue, setInputValue] = useState("is:pr is:open")
   const [checked, setChecked] = useState(false)
   const [list, setList] = useState([])
   const [page, setPage] = useState(1)
+  const [isOpenMode, setIsOpenMode] = useState(true)
   const maxPage = 10
 
-  async function getData(pageParam) {
+  async function getData(params) {
     const data = await axios.get(
       "https://api.github.com/repos/facebook/react/issues",
       {
-        params: { page: pageParam },
+        params,
       },
     )
     setList(data.data)
   }
 
   useEffect(() => {
-    getData(page)
-  }, [page])
+    getData({ page, state: isOpenMode ? "open" : "close" })
+  }, [page, isOpenMode])
 
   return (
     <>
@@ -48,7 +49,10 @@ export default function ListContainer() {
             New Issue
           </Button>
         </div>
-        <OpenClosedFilters />
+        <OpenClosedFilters
+          isOpenMode={isOpenMode}
+          onClickMode={setIsOpenMode}
+        />
         <div className={styles.container}>
           <ListItemLayout className={styles.listFilter}>
             <ListFilter onChangeFilter={(filteredData) => {}} />
@@ -71,39 +75,5 @@ export default function ListContainer() {
         />
       </div>
     </>
-  )
-}
-
-function OpenClosedFilters() {
-  const [isOpenMode, setIsOpenMode] = useState(true)
-
-  const openModeDataSize = 1
-  const closeModeDataSize = 2
-  return (
-    <>
-      <OpenCloseFilter
-        size={openModeDataSize}
-        state="Open"
-        selected={isOpenMode}
-        onClick={() => setIsOpenMode(true)}
-      />
-      <OpenCloseFilter
-        size={closeModeDataSize}
-        state="Close"
-        selected={!isOpenMode}
-        onClick={() => setIsOpenMode(false)}
-      />
-    </>
-  )
-}
-function OpenCloseFilter({ size, state, onClick, selected }) {
-  return (
-    <span
-      role="button"
-      className={cx(styles.textFilter, { [styles.selected]: selected })}
-      onClick={onClick}
-    >
-      {size} {state}
-    </span>
   )
 }
