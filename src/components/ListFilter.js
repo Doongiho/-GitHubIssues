@@ -47,6 +47,7 @@ export default function ListFilter({ onChangeFilter }) {
           onClick={() => setShowModal(filter)}
           onClose={() => setShowModal(null)}
           showModal={showModal === filter}
+          onChangeFilter={onChangeFilter}
           searchDataList={list}
         >
           {filter}
@@ -83,7 +84,9 @@ function ListFilterItem({
           onClose={onClose}
           placeholder={placeholder}
           searchDataList={list}
-          onClickCell={(cellInto) => {}}
+          onClickCell={(params) => {
+            onChangeFilter(params)
+          }}
         />
       </div>
     </div>

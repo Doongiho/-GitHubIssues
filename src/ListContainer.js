@@ -15,6 +15,7 @@ export default function ListContainer() {
   const [list, setList] = useState([])
   const [page, setPage] = useState(1)
   const [isOpenMode, setIsOpenMode] = useState(true)
+  const [params, setParams] = useState()
   const maxPage = 10
 
   async function getData(params) {
@@ -25,8 +26,8 @@ export default function ListContainer() {
   }
 
   useEffect(() => {
-    getData({ page, state: isOpenMode ? "open" : "close" })
-  }, [page, isOpenMode])
+    getData({ page, state: isOpenMode ? "open" : "close", ...params })
+  }, [page, isOpenMode, params])
 
   return (
     <>
@@ -53,7 +54,11 @@ export default function ListContainer() {
         />
         <div className={styles.container}>
           <ListItemLayout className={styles.listFilter}>
-            <ListFilter onChangeFilter={(filteredData) => {}} />
+            <ListFilter
+              onChangeFilter={(params) => {
+                setParams(params)
+              }}
+            />
           </ListItemLayout>
           {list.map((item) => (
             <ListItem

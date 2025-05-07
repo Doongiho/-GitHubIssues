@@ -44,8 +44,12 @@ export default function Modal({
       <div className={styles.list}>
         {filteredData.map((data) => (
           <div
+            onClick={() => {
+              const isLabel = title.toLowerCase() === "label"
+              const paramKey = isLabel ? "labels" : title.toLowerCase()
+              onClickCell({ [paramKey]: data.name })
+            }}
             key={data.name}
-            onClick={() => onClickCell(data)}
             role="button"
             className={styles.item}
           >
