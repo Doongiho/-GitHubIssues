@@ -13,8 +13,6 @@ const TabList = [
 ]
 
 export default function Tabs() {
-  const [selectedTabInx, setSelectedTabInx] = useState(1)
-
   const { pathname } = useLocation()
 
   return (
@@ -23,8 +21,7 @@ export default function Tabs() {
         <Tab
           key={idx}
           item={tab}
-          selected={pathname === tab.pathname}
-          onClick={() => setSelectedTabInx(idx)}
+          selected={(pathname === "/" ? "/issue" : pathname) === tab.pathname}
         />
       ))}
     </ul>
