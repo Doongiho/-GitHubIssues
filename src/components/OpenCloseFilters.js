@@ -17,14 +17,15 @@ export default function OpenClosedFilters({ isOpenMode, onClickMode }) {
     </>
   )
 }
-function OpenCloseFilter({ size, state, onClick, selected }) {
+
+function OpenCloseFilter({ state, onClick, selected }) {
   return (
     <span
       role="button"
       className={cx(styles.textFilter, { [styles.selected]: selected })}
       onClick={onClick}
     >
-      {size} {state}
+      {state}
     </span>
   )
 }

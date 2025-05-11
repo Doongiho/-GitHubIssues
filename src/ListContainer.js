@@ -14,12 +14,11 @@ export default function ListContainer() {
   const [inputValue, setInputValue] = useState("is:pr is:open")
   const [checked, setChecked] = useState(false)
   const [list, setList] = useState([])
-  const [params, setParams] = useState()
   const maxPage = 10
 
   const [searchParams, setSearchParams] = useSearchParams()
-  const page = parseInt(searchParams.get("page"), 10)
-  const mode = searchParams.get("mode")
+  const page = parseInt(searchParams.get("page") ?? "1", 10)
+  const state = searchParams.get("state")
 
   async function getData(params) {
     const data = await axios.get(`${GITHUB_API}/repos/facebook/react/issues`, {
@@ -29,8 +28,8 @@ export default function ListContainer() {
   }
 
   useEffect(() => {
-    getData({ page, state: mode, ...params })
-  }, [page, mode, params])
+    getData(searchParams)
+  }, [searchParams])
 
   return (
     <>
@@ -52,14 +51,14 @@ export default function ListContainer() {
           </Button>
         </div>
         <OpenClosedFilters
-          isOpenMode={mode !== "closed"}
-          onClickMode={(mode) => setSearchParams({ mode })}
+          isOpenMode={state !== "closed"}
+          onClickMode={(state) => setSearchParams({ state })}
         />
         <div className={styles.container}>
           <ListItemLayout className={styles.listFilter}>
             <ListFilter
               onChangeFilter={(params) => {
-                setParams(params)
+                setSearchParams(params)
               }}
             />
           </ListItemLayout>
