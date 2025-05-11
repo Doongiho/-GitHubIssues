@@ -1,6 +1,7 @@
 import { useRef } from "react"
 import styles from "./CreateIssuse.module.css"
 import Button from "../components/Button"
+import TextField from "../components/TextField"
 import cx from "clsx"
 
 export default function CreateIssuse() {
@@ -19,19 +20,15 @@ export default function CreateIssuse() {
       <div className={styles.avatar}></div>
       <div className={cx(styles.inputWrapper, styles.border)}>
         <form onSubmit={handleSubmit}>
-          <input
-            name="title"
-            ref={ref}
-            className={cx(styles.input, styles.border)}
-            placeholder="Title"
-          ></input>
-          <textarea
+          <TextField ref={ref} name="title" placeholder="title" />
+          <TextField
+            type="textarea"
             name="body"
-            className={cx(styles.input, styles.textarea, styles.border)}
             placeholder="Leave a comment"
-          ></textarea>
+          />
           <div className={styles.buttonWrapper}>
             <Button
+              ref={ref}
               type="submit"
               style={{
                 fontSize: "14px",
