@@ -1,43 +1,20 @@
-import { useEffect, useRef, useState } from "react"
+import { useRef } from "react"
 import styles from "./CreateIssuse.module.css"
 import Button from "../components/Button"
 import TextField from "../components/TextField"
 import cx from "clsx"
+import { useForm } from "../hooks"
 
 export default function CreateIssuse() {
   const inputRef = useRef()
   const textarRef = useRef()
-  const [inputValue, setInputValue] = useState({ title: "", body: "" })
-  const [errors, setErorrs] = useState({})
-  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  function handleSubmit(e) {
-    e.preventDefault()
-
-    setIsSubmitting(true)
-    const validateResult = validate(inputValue)
-    setErorrs(validateResult)
-
-    const refs = { title: inputRef, body: textarRef }
-    const errorKeys = Object.keys(validateResult)
-
-    if (errorKeys.length !== 0) {
-      const key = errorKeys[0]
-      alert(validateResult[key])
-      refs[key].current.focus()
-
-      setIsSubmitting(false)
-      return
-    }
-    if (errorKeys.length === 0) {
-      console.log("성공")
-    }
-  }
-
-  function onChange(e) {
-    const { name, value } = e.target
-    setInputValue({ ...inputValue, [name]: value })
-  }
+  const { handleSubmit, inputValue, onChange, errors, isSubmitting } = useForm({
+    initialValues: { title: "", body: "" },
+    onSubmit: () => console.log("완료"),
+    validate,
+    refs: { title: inputRef, body: textarRef },
+  })
 
   return (
     <div className={styles.container}>
@@ -48,7 +25,7 @@ export default function CreateIssuse() {
             ref={inputRef}
             name="title"
             placeholder="title"
-            value={inputValue.inputValue}
+            value={inputValue.title}
             onChange={onChange}
             error={errors.title}
           />
@@ -57,7 +34,7 @@ export default function CreateIssuse() {
             type="textarea"
             name="body"
             placeholder="Leave a comment"
-            value={inputValue.inputValue}
+            value={inputValue.body}
             onChange={onChange}
             error={errors.body}
           />
@@ -81,10 +58,9 @@ export default function CreateIssuse() {
 }
 
 function validate(values) {
-  let errors = {}
-
+  const errors = {}
   if (values.title === "") {
-    errors = { title: "타이틀의 값은 필수입니다." }
+    errors.title = "타이틀의 값은 필수입니다."
   }
   return errors
 }
