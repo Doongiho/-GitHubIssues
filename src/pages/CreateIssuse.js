@@ -1,8 +1,11 @@
 import { useRef } from "react"
+import cx from "clsx"
+import axios from "axios"
+
 import styles from "./CreateIssuse.module.css"
 import Button from "../components/Button"
 import TextField from "../components/TextField"
-import cx from "clsx"
+import { GITHUB_API } from "../api"
 import { useForm } from "../hooks"
 
 export default function CreateIssuse() {
@@ -11,7 +14,17 @@ export default function CreateIssuse() {
 
   const { handleSubmit, inputValue, onChange, errors, isSubmitting } = useForm({
     initialValues: { title: "", body: "" },
-    onSubmit: () => console.log("완료"),
+    onSubmit: async () =>
+      await axios.post(
+        `${GITHUB_API}/repos/Doongiho/-GitHubIssues/issues`,
+        inputValue,
+        {
+          headers: {
+            Authorization: process.env.REACT_APP_GITHUB_TOKEN,
+            "Content-Type": "application/json",
+          },
+        },
+      ),
     validate,
     refs: { title: inputRef, body: textarRef },
   })

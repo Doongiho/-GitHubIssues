@@ -14,10 +14,10 @@ export function useForm({
 
   function onChange(e) {
     const { name, value } = e.target
-    setInputValue((prev) => ({ ...prev, [name]: value }))
+    setInputValue({ ...inputValue, [name]: value })
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault()
 
     setIsSubmitting(true)
@@ -25,17 +25,19 @@ export function useForm({
     setErrors(validateResult)
 
     const errorKeys = Object.keys(validateResult)
-    if (errorKeys.length > 0) {
+
+    if (errorKeys.length !== 0) {
       const key = errorKeys[0]
       alert(validateResult[key])
-      refs?.[key]?.current?.focus()
+      onErrors()
+      refs[key].current.focus()
       setIsSubmitting(false)
-      onErrors?.(validateResult)
       return
     }
-
-    onSubmit?.()
-    onSuccess?.()
+    if (errorKeys.length === 0) {
+      await onSubmit()
+      return
+    }
   }
 
   return {
