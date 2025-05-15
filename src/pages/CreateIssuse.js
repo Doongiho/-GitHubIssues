@@ -25,6 +25,7 @@ export default function CreateIssuse() {
           },
         },
       ),
+    onErrors: () => {},
     validate,
     refs: { title: inputRef, body: textarRef },
   })
