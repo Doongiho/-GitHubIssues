@@ -1,4 +1,5 @@
 import { useRef } from "react"
+import { replace, useNavigate } from "react-router-dom"
 import cx from "clsx"
 import axios from "axios"
 
@@ -11,6 +12,7 @@ import { useForm } from "../hooks"
 export default function CreateIssuse() {
   const inputRef = useRef()
   const textarRef = useRef()
+  const navigate = useNavigate()
 
   const { handleSubmit, inputValue, onChange, errors, isSubmitting } = useForm({
     initialValues: { title: "", body: "" },
@@ -28,6 +30,10 @@ export default function CreateIssuse() {
     onErrors: () => {},
     validate,
     refs: { title: inputRef, body: textarRef },
+    onSuccess: (result) => {
+      console.log({ result })
+      navigate("/", { replace: true })
+    },
   })
 
   return (

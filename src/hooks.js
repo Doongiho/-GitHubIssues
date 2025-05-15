@@ -35,7 +35,12 @@ export function useForm({
       return
     }
     if (errorKeys.length === 0) {
-      await onSubmit()
+      try {
+        const result = await onSubmit()
+        onSuccess(result)
+      } catch (e) {
+        onErrors()
+      }
       return
     }
   }
